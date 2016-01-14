@@ -1,0 +1,14 @@
+﻿body {background-color:#FEF; margin: 0; }
+body, input {font: 10pt "trebuchet ms", tahoma, helvetica}
+#content {margin-left:1em; margin-right: 1em}
+#crumb {background-color:#C00; color:white; padding: 3px 1em; font-weight: bold;}
+#crumb a {color:white}
+li {padding-top:.5em; padding-bottom:.5em}
+
+table.thin { border-collapse: collapse; border: 1px solid #CCC; }
+.thin td, .thin th, .thintight td, .thintight th {border:1px solid #CCC;}
+.thin td, .thin th {padding:3px 6px}
+
+.zebra tr:nth-of-type(odd) { background-color:#DDD; }	/* CSS3 to shade alternate rows gray */
+.zebra td:nth-of-type(3n+2) { border-left:2px solid #666; }
+.tag {color:#666; font-size:.8em}

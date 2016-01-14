@@ -1,0 +1,23 @@
+<!--METADATA TYPE="typelib" UUID="CD000000-8B95-11D1-82DB-00C04FB1625D" NAME="CDO for Windows 2000 Type Library" -->
+<!--METADATA TYPE="typelib" UUID="00000205-0000-0010-8000-00AA006D2EA4" NAME="ADODB Type Library" -->
+
+<script runat="Server" type="text/vbscript" language="vbscript">
+
+  ' Set CDO SMTP configuration for all pages that use CDO
+  ' Syntax: Set objMail.Configuration = Session("Config")
+
+	sendUrl="http://schemas.microsoft.com/cdo/configuration/sendusing"
+	smtpUrl="http://schemas.microsoft.com/cdo/configuration/smtpserver"
+	Set objConfig=CreateObject("CDO.Configuration")
+	objConfig.Fields.Item(sendUrl)=2 ' cdoSendUsingPort
+	objConfig.Fields.Item(smtpUrl)="relay-hosting.secureserver.net"
+	objConfig.Fields.Update
+	Set Session("Config") = objConfig
+
+  ' SQL connection string
+	Session("myADO") = "Driver={SQL Server}; Server=espressomap.db.7703345.hostedresource.com; Database=espressomap; Uid=espressomap; Pwd=;"
+
+  ' Current LaLa Letters year
+  	Session("intYear")=2015
+
+</script>

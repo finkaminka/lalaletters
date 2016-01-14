@@ -1,0 +1,116 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+  "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=windows-1252">
+<meta name="GENERATOR" content="Microsoft FrontPage 6.0">
+<meta name="ProgId" content="FrontPage.Editor.Document">
+<link title="style" rel="stylesheet" type="text/css" href="../style.css">
+<title>found lalaletters</title>
+<script type="text/javascript" src="http://maps.google.com/maps?file=api&amp;v=2&amp;key=ABQIAAAAWc1kTiUm4My2gfam_TzJoBSURyYDE7hRyXt6cfSKa2su1pyyTRRpC0gESH-Bo6bELZauf4N-VHb8hQ"></script>
+<style type="text/css">
+    .tooltip {width:150px; background:white; font-size:80%; border:1px solid gray; padding:2px;}
+    #markerct {margin: 1em; font-weight: bold;}
+</style>
+</head>
+<body onunload="GUnload()">
+
+<div id="markerct"></div>
+<div id="map" style="margin-left:1em; width: 500px; height: 420px"></div><p style="margin-left:1em"><a href="javascript:history.back();">&lt;
+back to the lalaletters blog</a>&nbsp; (are you in <a href="../map_seattle.htm">
+Seattle</a>?)</p>
+<script type="text/javascript">
+//<![CDATA[
+	if (GBrowserIsCompatible()) {
+      // arrays to hold copies of the markers and html used by the sidebar
+      // because the function closure trick doesnt work there
+      var i = 0;
+      var baseIcon = new GIcon();
+      baseIcon.shadow = "/images/sm_shadow.png";
+	  baseIcon.iconSize = new GSize(12, 20);
+	  baseIcon.shadowSize = new GSize(22, 20);
+	  baseIcon.iconAnchor = new GPoint(6, 20);
+	  baseIcon.infoWindowAnchor = new GPoint(5, 1);
+	  
+      // A function to create the marker and set up the event window
+      function createMarker(point,color,name) {
+        var icon = new GIcon(baseIcon)
+        icon.image = "/images/sm_" + color + ".png"
+        var marker = new GMarker(point, icon);
+
+		// Store the name so that the tooltip function can use it
+        marker.tooltip = '<div class="tooltip">'+name+'</div>';
+        
+		// On mouseover, display tooltip
+        GEvent.addListener(marker,"mouseover", function() {
+          showTooltip(marker);
+        });        
+
+		// On mouseout, hide tooltip
+        GEvent.addListener(marker,"mouseout", function() {
+		  tooltip.style.visibility="hidden"
+        });        
+
+        return marker;
+      }
+
+      // ====== This function displays the tooltip ======
+      // it can be called from an icon mousover or a sidebar mouseover
+      function showTooltip(marker) {
+      	tooltip.innerHTML = marker.tooltip;
+		var point=map.getCurrentMapType().getProjection().fromLatLngToPixel(map.fromDivPixelToLatLng(new GPoint(0,0),true),map.getZoom());
+		var offset=map.getCurrentMapType().getProjection().fromLatLngToPixel(marker.getPoint(),map.getZoom());
+		var anchor=marker.getIcon().iconAnchor;
+		var width=marker.getIcon().iconSize.width;
+		var height=tooltip.clientHeight;
+		var pos = new GControlPosition(G_ANCHOR_TOP_LEFT, new GSize(offset.x - point.x - anchor.x + width, offset.y - point.y -anchor.y -height)); 
+		pos.apply(tooltip);
+		tooltip.style.visibility="visible";
+      }
+
+      // create the map
+      var map = new GMap2(document.getElementById("map"));
+      map.addControl(new GLargeMapControl());
+      map.addControl(new GMapTypeControl());
+      map.setCenter(new GLatLng(45.537256919, -122.6467323), 12)
+            
+	  // set up marker mouseover tooltip div
+      var tooltip = document.createElement("div");
+      map.getPane(G_MAP_FLOAT_PANE).appendChild(tooltip);
+      tooltip.style.visibility="hidden";
+
+      // Read the data from example.xml
+      var request = GXmlHttp.create();
+      request.open("GET", "maps/public.xml", true);
+      request.onreadystatechange = function() {
+        if (request.readyState == 4) {
+          var xmlDoc = request.responseXML;
+          // obtain the array of markers and loop through it
+          var markers = xmlDoc.documentElement.getElementsByTagName("marker");
+          
+          for (var i = 0; i < markers.length; i++) {
+            // obtain the attribues of each marker
+            var lat = parseFloat(markers[i].getAttribute("lat"));
+            var lng = parseFloat(markers[i].getAttribute("lng"));
+            var color = markers[i].getAttribute("color");
+            var point = new GLatLng(lat,lng);
+     		  var label = GXml.value(markers[i].getElementsByTagName("desc")[0].firstChild)
+
+            // create the marker
+            var marker = createMarker(point,color,label);
+            map.addOverlay(marker);
+          }
+          document.getElementById("markerct").innerHTML = i + ' lalaletters found so far. Hover over any marker for details.';
+        }
+      }
+      request.send(null);
+    }
+
+    else {
+      alert("Sorry, the Google Maps API is not compatible with this browser");
+}
+//]]>
+</script>
+</body>
+

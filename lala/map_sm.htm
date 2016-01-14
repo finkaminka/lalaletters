@@ -1,0 +1,61 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+  "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=windows-1252">
+<script type="text/javascript" src="http://maps.google.com/maps?file=api&amp;v=2&amp;key=ABQIAAAAWc1kTiUm4My2gfam_TzJoBSURyYDE7hRyXt6cfSKa2su1pyyTRRpC0gESH-Bo6bELZauf4N-VHb8hQ"></script>
+<title>found lalaletters</title>
+</head>
+<body onunload="GUnload()">
+<div id="map" style="width: 194px; height: 160px"></div>
+<script type="text/javascript">
+//<![CDATA[
+  var i = 0;
+  var baseIcon = new GIcon();
+  baseIcon.shadow = "http://www.espressomap.com/images/sm_shadow.png";
+  baseIcon.iconSize = new GSize(12, 20);
+  baseIcon.shadowSize = new GSize(22, 20);
+  baseIcon.iconAnchor = new GPoint(6, 20);
+  baseIcon.infoWindowAnchor = new GPoint(5, 1);
+  
+  // A function to create the marker and set up the event window
+  function createMarker(point,color,name) {
+    var icon = new GIcon(baseIcon)
+    icon.image = "http://www.espressomap.com/images/sm_" + color + ".png"
+    var marker = new GMarker(point, icon);
+
+    return marker;
+  }
+
+  // create the map
+  var map = new GMap2(document.getElementById("map"));
+  map.setCenter(new GLatLng(45.537256919, -122.6467323), 12)
+        
+  // Read the data from example.xml
+  var request = GXmlHttp.create();
+  request.open("GET", "http://www.espressomap.com/lala/maps/public.xml", true);
+  request.onreadystatechange = function() {
+    if (request.readyState == 4) {
+      var xmlDoc = request.responseXML;
+      // obtain the array of markers and loop through it
+      var markers = xmlDoc.documentElement.getElementsByTagName("marker");
+      
+      for (var i = 0; i < markers.length; i++) {
+        // obtain the attribues of each marker
+        var lat = parseFloat(markers[i].getAttribute("lat"));
+        var lng = parseFloat(markers[i].getAttribute("lng"));
+        var color = markers[i].getAttribute("color");
+        var point = new GLatLng(lat,lng);
+ 		  var label = GXml.value(markers[i].getElementsByTagName("desc")[0].firstChild)
+
+        // create the marker
+        var marker = createMarker(point,color,label);
+        map.addOverlay(marker);
+      }
+    }
+  }
+//]]>
+</script>
+</body>
+</html>

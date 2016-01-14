@@ -1,0 +1,6 @@
+body {background-color:#FEF; margin: 0; }
+body, input {font: 10pt "trebuchet ms", tahoma, helvetica}
+#content {margin-left:1em; margin-right: 1em}
+#crumb {background-color:#C00; color:white; padding: 3px 1em; font-weight: bold;}
+#crumb a {color:white}
+li {padding-top:.5em; padding-bottom:.5em}

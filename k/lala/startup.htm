@@ -1,0 +1,32 @@
+<!doctype html>
+<html>
+
+<head>
+<meta http-equiv="Content-Language" content="en-us">
+<meta http-equiv="Content-Type" content="text/html; charset=windows-1252">
+<link title="style" rel="stylesheet" type="text/css" href="style.css">
+<title>How to start each new LalaLetters year</title>
+<style type="text/css">
+body {margin:2em}
+</style>
+</head>
+
+<body>
+<h3>Steps to begin each new Lala letters year:</h3>
+<ol>
+	<li>change the year in global.asa (intYear variable)</li>
+	<li>add any <a href="fortunes.asp">new lalas at this page</a></li>
+	<li>modify SQL view &quot;v2&quot; so intYear is current year, and to make sure data 
+	looks good</li>
+	<li>open LalaMerge.docx (get <a href="LalaMerge.docx">copy here</a> if needed), will use view v2 as merge 
+	source for lalas. Trouble with this? Within SQL admin, save v2 to CSV, then as Excel, replace all smart quote characters, then point LalaMerge.docx file to use XLSX as recipient source.</li>
+	<li>print preview to ensure they all look good, then print</li>
+	<li>run SQL spLalaAddNewYear (from SQL dashboard Query Analyzer) which adds all those lalas into tblLalaLocation</li>
+</ol>
+<h3>Adding new prefixes? (To generate even more lala combinations)</h3>
+    <blockquote>Add codes to tblLalaRoot, then re-run spLalaAddNewYear; it won't replace anything, will only add new lalas</blockquote>
+<p><a href="Default.asp">&lt; back to admin page</a></p>
+<p class="tag">Last verified: April 2015</p>
+</body>
+
+</html>
